@@ -1,0 +1,22 @@
+@keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top-color: #123abc;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+
+
+  

@@ -1,0 +1,21 @@
+﻿{
+    "dbName": "leketDB",
+    "dbConfig": {
+        "server": "leket1.database.windows.net",
+        "options": {
+            "port": 1433,
+            "trustServerCertificate": true,
+            "cryptoCredentialsDetails": {
+                "minVersion": "TLSv1.2"
+            }
+        },
+        "authentication": {
+            "type": "default",
+            "options": {
+                "userName": "sql",
+                "password": "Leket1234T"
+            }
+        }
+    },
+    "secret": "LeketPredSys#050699" 
+}
