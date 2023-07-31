@@ -1,5 +1,15 @@
 ﻿const { spawn } = require('child_process');
 
+/**
+ * Run the Python prediction model using child_process.spawn().
+ * This function executes a Python script with the given input parameters and captures the output.
+ 
+ * @returns {Promise<object>} A Promise that resolves with an object containing the prediction results and R-squared value.
+ * The resolved object has the following properties:
+ *   - result: An array containing the prediction results.
+ *   - r2: The R-squared value indicating the accuracy of the predictions.
+ */
+
 function runPredModel(startDate, endDate, maxTemp, minTemp, rain, snow, hail, gale, kind, holidayStartDate, holidayEndDate) {
   return new Promise((resolve, reject) => {
     const pythonProcess = spawn('python', ['./results/predictionModel.py', startDate, endDate, maxTemp, minTemp, rain, snow, hail, gale, kind, holidayStartDate, holidayEndDate]);
@@ -9,6 +19,7 @@ function runPredModel(startDate, endDate, maxTemp, minTemp, rain, snow, hail, ga
     pythonProcess.stdout.on('data', (data) => {
       console.log(`Python script output: ${data}`);
       result += data.toString(); // Collect the output data
+      // console.log(result);
     });
 
     pythonProcess.stderr.on('data', (data) => {

@@ -25,6 +25,20 @@ group2 = utils.group2
 group3 = utils.group3
 group4 = utils.group4
 
+startDate = sys.argv[1]
+endDate = sys.argv[2]
+maxTemp = sys.argv[3]
+minTemp = sys.argv[4]
+rain = sys.argv[5]
+snow = sys.argv[6]
+hail = sys.argv[7]
+gale = sys.argv[8]
+kind = sys.argv[9]
+holidayStartDate = sys.argv[10]
+holidayEndDate = sys.argv[11]
+
+kinds = utils.kinds
+
 server = 'leket1.database.windows.net'
 database = 'leketDB'
 username = 'sql'
@@ -35,25 +49,26 @@ connection_string = f"DRIVER={driver};SERVER={server};DATABASE={database};UID={u
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 
-def create_test(startDate, endDate, maxTemp, minTemp, rain, snow, hail, gale, kind ,holidayStartDate, holidayEndDate , data):
+def create_test(startDate, endDate, maxTemp, minTemp, rain, snow, hail, 
+                gale, kind ,holidayStartDate, holidayEndDate , data):
+    
+    
+    """  Generate test data for prediction.
+
+        Parameters:
+            kind (str): Category of food items to consider.
+            data (DataFrame): DataFrame containing zone, food, and weather data.
+
+        Returns:
+            DataFrame: DataFrame containing the generated test data.
+    """
 
     zone_and_zone_id_and_kind = data[['Zone','Zone_id','Food','Food_id']].drop_duplicates()
     zone_and_Location_id = data[['Zone_id','Dis_Location_id','District']].drop_duplicates()
     start = datetime.strptime(startDate, '%Y-%m-%d').date()
     end = datetime.strptime(endDate, '%Y-%m-%d').date()
-    selected_items_list=[]
-    if (kind == 'קבוצה 1'):
-        selected_items_list = utils.group1
-    elif (kind == 'קבוצה 2'):
-        selected_items_list = utils.group2
-    elif (kind == 'קבוצה 3'):
-        selected_items_list = utils.group3
-    elif (kind == 'קבוצה 4'):
-        selected_items_list = utils.group4
-    elif (kind == 'הכל'):
-        selected_items_list =  utils.all_kinds
-    else : 
-        selected_items_list.append(kind)
+    selected_items_list = modify_selected_list(kind)
+
     test = pd.DataFrame()
     test['Food'] = selected_items_list
     date_list = []
@@ -70,10 +85,10 @@ def create_test(startDate, endDate, maxTemp, minTemp, rain, snow, hail, gale, ki
     test['Min_temp'] = minTemp
     test['Max_temp'] = maxTemp
     test['Gale'] = gale
-    test['rain_06_next'] = rain
+    test['Rain_06_next'] = rain
     test['Hail'] = hail
     test['Snow'] = snow
-    test['day'] = pd.to_datetime(test['Timestamp']).dt.day
+    test['Day'] = pd.to_datetime(test['Timestamp']).dt.day
     test['Month'] = pd.to_datetime(test['Timestamp']).dt.month
     test['Year'] = pd.to_datetime(test['Timestamp']).dt.year
 
@@ -91,7 +106,14 @@ def create_test(startDate, endDate, maxTemp, minTemp, rain, snow, hail, gale, ki
     test = pd.merge(test, zone_and_Location_id, on='Zone_id')
     test= test.drop('Zone',axis=1)
 
-    def sesoan(m):
+    test["Season"] = test["Month"].apply(sesoan)
+    test.rename(columns={'Timestamp':'Date'},inplace=True)
+    test['Date'] = test['Date'].astype(str)
+    test['Week'] = test['Date'].apply(extract_week_num)
+    test = test.drop(['key','Food','Date'],axis=1)
+    return test
+
+def sesoan(m):
                 if 3<=m<=6:
                         return 1
                 if 6<m<=9:
@@ -100,47 +122,54 @@ def create_test(startDate, endDate, maxTemp, minTemp, rain, snow, hail, gale, ki
                         return 3
                 else:
                         return 4
+                
+def extract_week_num(date):
+    import datetime
+    year, month , day = date.split("-")
+    return datetime.date(int(year),int(month),int(day)).isocalendar()[1]
 
-    test["season"] = test["Month"].apply(sesoan)
-    test.rename(columns={'Timestamp':'Date'},inplace=True)
-    
-    def exctract_week_num(date):
-        import datetime
-        year, month, day = date.split("-")
-        return datetime.date(int(year), int(month), int(day)).isocalendar()[1]   
-    
-    test['Date'] = test['Date'].astype(str)
-    test["Week"] = test['Date'].apply(exctract_week_num)
-    test = test.drop(['key','Food','Date'],axis=1)
-    test.rename(columns={'Timestamp':'Date'},inplace=True)
-    return test
+def modify_selected_list(selected_item):
+    selected_items_list = []
+    if selected_item == 'קבוצה 1':
+        selected_items_list = utils.group1
+    elif selected_item == 'קבוצה 2':
+        selected_items_list = utils.group2
+    elif selected_item == 'קבוצה 3':
+        selected_items_list = utils.group3
+    elif selected_item == 'קבוצה 4':
+        selected_items_list = utils.group4
+    elif selected_item == 'הכל':
+        selected_items_list = utils.all_kinds
+    else:
+        selected_items_list = selected_item.split(',')
+    return selected_items_list
 
 def get_predict(selected_item,test,data):
-    data = data.dropna()
-    data['Date'] = pd.to_datetime(data['Date'])
-    selected_items_list = []
 
-    if (selected_item == 'קבוצה 1'):
-        selected_items_list = utils.group1
-    elif (selected_item == 'קבוצה 2'):
-        selected_items_list = utils.group2
-    elif (selected_item == 'קבוצה 3'):
-        selected_items_list = utils.group3
-    elif (selected_item == 'קבוצה 4'):
-        selected_items_list = utils.group4
-    elif (selected_item == 'הכל'):
-        selected_items_list =  utils.all_kinds
-    else : 
-        selected_items_list.append(selected_item)
+    """
+    Perform predictions using the random forest regression model.
+
+    Parameters:
+        selected_item (str): Category of food items to consider.
+        test (DataFrame): DataFrame containing the generated test data.
+        data (DataFrame): DataFrame containing historical data.
+
+    Returns:
+        Tuple[float, DataFrame]: R-squared value indicating the accuracy of predictions and DataFrame containing predictions for the test data.
+    """
+
+    data['Date'] = pd.to_datetime(data['Date'])
+    data = data.dropna()
+    selected_items_list = modify_selected_list(selected_item)
 
     data = data[data['Food'].isin(selected_items_list)]
 
-    data = data.drop(['Zone','Dis_Location','Food','Year_Weeks','Date','Location','rain_code','Unnamed: 0'],axis=1)
+    data = data.drop(['Zone','Dis_Location','Food','Year_Weeks','Date','Location','Rain_code'],axis=1)
 
     # Split the data into features and target variable
     
-    X = data.drop(['label'], axis=1)
-    y = data['label']
+    X = data.drop(['Quantity'], axis=1)
+    y = data['Quantity']
 
 
     # Split the data into training and testing sets
@@ -161,8 +190,24 @@ def get_predict(selected_item,test,data):
     test = pd.DataFrame(test)
     return  r2 , test
 
+
 def get_result(kind,data,mytest):
+
+    """
+    Get the final prediction results.
+
+    Parameters:
+        kind (str): Category of food items to consider.
+        data (DataFrame): DataFrame containing historical data.
+        mytest (DataFrame): DataFrame containing the generated test data.
+
+    Returns:
+        Tuple[float, DataFrame]: R-squared value indicating the accuracy of predictions and DataFrame containing the final prediction results.
+    """
+
     # data= create_df('merged')  #data = the final proccessed data to dataframe
+    # data = pd.read_csv(r"C:\SHAMS\alldata2023-222.xlsx")
+    
     zone_and_zone_id_and_kind = data[['Zone','Zone_id','Food','Food_id']].drop_duplicates()
     r2, result = get_predict(kind,mytest,data)
     result = result[result['prediction']>=100]
@@ -175,7 +220,7 @@ def get_result(kind,data,mytest):
     result['District'] = result['District'].str.strip() 
     result['Food'] = result['Food'].str.strip()
     result['prediction']=result['prediction'].apply(math.ceil) 
-    result.to_csv('result1.csv', index=False)
+    # result.to_csv('result1.csv', index=False)
     return r2 , result
 
 def get_district_and_food(zone):
@@ -184,6 +229,16 @@ def get_district_and_food(zone):
         return y
 
 def import_table_as_df(table_name , cursor ):
+        """
+    Import data from a database table and create a DataFrame.
+
+    Parameters:
+        table_name (str): Name of the table to import from the database.
+        cursor (pyodbc.Cursor): pyodbc Cursor object for executing SQL queries.
+
+    Returns:
+        DataFrame: DataFrame containing the data from the specified table.
+    """
         try:
             # Retrieve the data from the table
             query = f"SELECT * FROM [{table_name}]"
@@ -205,7 +260,19 @@ def import_table_as_df(table_name , cursor ):
         except pyodbc.Error as e:
             print("Error connecting to the database:", e)
 
+
 def create_df(table_name):
+
+    """
+    Create a DataFrame from a database table.
+
+    Parameters:
+        table_name (str): Name of the table to create DataFrame from.
+
+    Returns:
+        DataFrame: DataFrame containing the data from the specified table.
+    """
+
     try:
         conn = pyodbc.connect(connection_string)
         cursor = conn.cursor()
@@ -223,8 +290,34 @@ async def main(startDate, endDate, maxTemp, minTemp, rain, snow, hail, gale, kin
     # create a dictionary
     result = []
 
-    # TODO: Change this to the merged file in the database
-    data = pd.read_csv(r"C:\\Users\\DELL\\mssql\src\\results\\alldata2023-222.xlsx")
+    if holidayStartDate == '':
+        holidayStartDate=0
+
+    if holidayEndDate == '':
+        holidayEndDate =0
+
+    if snow:
+        snow = 1
+    else :
+        snow =0
+
+    if hail:
+        hail = 1
+    else :
+        hail =0
+
+    if gale:
+        gale = 1
+    else :
+        gale =0
+
+    if rain:
+        rain = 1
+    else:
+        rain =0
+
+    data= create_df('merged')
+    # data = pd.read_csv(r"C:\SHAMS\alldata2023-222.xlsx")
     my_test = create_test(startDate, endDate, maxTemp, minTemp, rain, snow, hail, gale, kind ,holidayStartDate, holidayEndDate , data)
     r2,res = get_result(kind,data,my_test)
     # Open a csv reader called DictReader
@@ -243,44 +336,5 @@ async def main(startDate, endDate, maxTemp, minTemp, rain, snow, hail, gale, kin
     print(response_json)
     return response_json
  
-startDate = sys.argv[1]
-endDate = sys.argv[2]
-maxTemp = sys.argv[3]
-minTemp = sys.argv[4]
-rain = sys.argv[5]
-snow = sys.argv[6]
-hail = sys.argv[7]
-gale = sys.argv[8]
-kind = sys.argv[9]
-holidayStartDate = sys.argv[10]
-holidayEndDate = sys.argv[11]
-
-if holidayStartDate == '':
-    holidayStartDate=0
-
-if holidayEndDate == '':
-    holidayEndDate =0
-
-if snow:
-    snow = 1
-else :
-    snow =0
-
-if hail:
-    hail = 1
-else :
-    hail =0
-
-if gale:
-    gale = 1
-else :
-    gale =0
-
-if rain:
-    rain = 1
-else:
-    rain =0
-
-kinds = utils.kinds
 loop = asyncio.new_event_loop()
 loop.run_until_complete(main(startDate, endDate, maxTemp, minTemp, rain, snow, hail, gale, kind ,holidayStartDate, holidayEndDate))

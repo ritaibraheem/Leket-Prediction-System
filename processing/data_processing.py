@@ -34,8 +34,7 @@ async def to_db_table(file):
         merged = final_processing(file)
 
         # Save the first 50 rows of 'merged' DataFrame to a CSV file named 'Final Merged to database.csv'
-        first_50_rows = merged.head(50)
-        first_50_rows.to_csv('Final Merged to database.csv', encoding='utf-8')
+        first_50_rows = merged.head(50) #TODO: DELETE THIS LINE CODE
 
         # Decode any byte-encoded values in the 'first_50_rows' DataFrame (if any)
         df_decoded = first_50_rows.applymap(lambda x: x.decode('utf8') if isinstance(x, bytes) else x)
@@ -112,6 +111,7 @@ async def to_db_table(file):
         sql = f"INSERT INTO merged VALUES ({placeholders})"
         cursor.executemany(sql, rows)
         cursor.commit()
+        print('Table Uploaded Successfuly to DB')
 
         # Execute a SQL query to fetch all rows from the 'merged' table
         query = 'SELECT * FROM merged'

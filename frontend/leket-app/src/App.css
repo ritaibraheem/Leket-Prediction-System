@@ -500,6 +500,9 @@ button{
   margin-top: 0%;
   margin-bottom: 0%;
   text-align: center;
+  z-index: 1;
+  max-height: 150px;
+  overflow-y: auto;
  }
 .datebox{
   font-size: 16px;
@@ -604,14 +607,6 @@ nav ul li a:hover {
   padding-top: 100px;
 }
 
-.accuracy-info {
-  margin-top: 20px; /* Adds a margin of 20 pixels from the top */
-  margin-bottom: 30px;
-  font-size: 18px; /* Sets the font size to 18 pixels */
-  color: #333; /* Sets the text color to a dark shade of gray */
-  font-weight: bold; /* Sets the font weight to bold */
-}
-
 
 .table {
   width: 50%;
@@ -625,6 +620,7 @@ nav ul li a:hover {
   justify-content: center; /* horizontally center */
   align-items: center; /* vertically center */
   height: 80; /* adjust the height as needed */
+  margin-top: 50px;
 }
 
 .table th {
@@ -687,7 +683,7 @@ nav ul li a:hover {
   position: absolute;
   background-color: #f9f9f9;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #000000;
   border-radius: 4px;
   z-index: 1;
   max-height: 150px;
@@ -706,3 +702,18 @@ nav ul li a:hover {
   align-items: left;
 
  }
+
+ .multi{
+  background: transparent;
+  margin-top: 3px;
+  
+ }
+
+
+
+.multiSelectContainer input{
+  border: #000000;
+  border-width: 3px;
+  background: #fff;
+ 
+}

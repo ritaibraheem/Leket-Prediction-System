@@ -1,35 +1,39 @@
 import React from "react";
-import {useNavigate} from "react-router-dom";
-import Navbar from "./Navbar";
+import { useNavigate } from "react-router-dom";
 
-
+// Defining a React functional component called Connecting
 export const Connecting = () => {
-    const navigate = useNavigate();
+  // Using the useNavigate hook from react-router-dom to get the navigation function
+  const navigate = useNavigate();
 
-    return(
-        <div>
-            
-        <div className="ConnectingPage">    
-        {/* <img src={image1} style={{
-        position: 'fixed',
-        right: `50px`,
-        top: `200px`,
-        }} alt = " image 2" height = {'auto'} width={350}></img>
-        <img src={image2} style={{
-        position: 'fixed',
-        right: `870px`,
-        top: `130px`,
-        }} alt = " image 2" height = {400} width={'auto'}></img>    */}
-           <form className='Connectin-Form'>
-           <h1 className="h1-Connecting"> Connecting </h1> 
-           <span className="Span1">to Leket's prediction system </span>
-           <button className="link-btn1" onClick={()=> navigate("/Login")}> SIGN IN</button>
-           <button className="link-btn2" onClick={()=> navigate("/Register")}> SIGN UP</button>
-           <button className="link-btn3" onClick={()=> navigate("/Main")}>Main</button>  
-           </form> 
-           
-        </div>
-        </div>
-        
-    )
-}
+  return (
+    <div>
+      {/* This div contains the main content of the Connecting page */}
+      <div className="ConnectingPage">
+        {/* 
+          This form contains the content of the Connecting page. It allows users to sign in or sign up.
+        */}
+        <form className="Connectin-Form">
+          {/* Page title */}
+          <h1 className="h1-Connecting">Connecting</h1>
+          {/* Page sub-title */}
+          <span className="Span1">to Leket's prediction system</span>
+          {/* 
+            Button to navigate to the Login page when clicked.
+            When the user clicks this button, it triggers the navigate function to take them to the "/Login" route.
+          */}
+          <button className="link-btn1" onClick={() => navigate("/Login")}>
+            SIGN IN
+          </button>
+          {/* 
+            Button to navigate to the Register page when clicked.
+            When the user clicks this button, it triggers the navigate function to take them to the "/Register" route.
+          */}
+          <button className="link-btn2" onClick={() => navigate("/Register")}>
+            SIGN UP
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};

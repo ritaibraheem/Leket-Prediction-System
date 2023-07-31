@@ -1,19 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 export const Results = () => {
   const [selectedLocations, setSelectedLocations] = useState([]);
-  const [selectedKind, setSelectedKind] = useState([]);
+  const [setSelectedKind] = useState([]);
   const [filter, setFilter] = useState('');
   const routeLocation = useLocation();
   const { jsonData } = routeLocation.state;
+  console.log(jsonData['result']);
   const jsonArray = jsonData['result'];
-  const r2 = jsonData['r2']
-  
-
-  console.log('jsonArray');
-  console.log(jsonArray)
-  console.log(r2)
+  console.log(jsonArray);
 
   console.log(jsonData)
   const districtDict = {"לא ידוע":["לא רשום"],
@@ -41,48 +37,43 @@ export const Results = () => {
   "חיפה":["דאלית אל-כרמל","חיפה","אבטין","עספיא","כפר ביאליק","כפר גלים","כפר המכבי","כפר הנוער הדתי","כפר חסידים","כפר חסידים א'","כפר חסידים ב'","ח'ואלד","נשר","נופית","אורנים","קרית אתא","קרית ביאליק","קרית מוצקין","קרית טבעון","קרית ים","רמת יוחנן","ראס עלי","רכסים","שער העמקים","טירת כרמל","אושה","יגור","גרנות"],
   "תל אביב":["גליל ים","הרצליה","כפר שמריהו","רמת השרון","תל אביב","יפו"],
   "ג'נין":["חרמש","חיננית","מבוא דותן","ריחן","שקד"]};
- 
   console.log(Array.isArray(jsonArray));
 
   const handleLocationClick = (District) => {
+    // Toggle the selection of the clicked District
     if (selectedLocations.includes(District)) {
-      setSelectedLocations(selectedLocations.filter(item => item !== District));
+      setSelectedLocations(selectedLocations.filter(item => item !== District)); // Remove District from the selectedLocations array
     } else {
-      setSelectedLocations([...selectedLocations, District]);
+      setSelectedLocations([...selectedLocations, District]); // Add District to the selectedLocations array
     }
   }
-
+  
   const handleFilterChange = (e) => {
-    setFilter(e.target.value);
+    setFilter(e.target.value); // Set the filter state based on the selected value
     setSelectedKind(null); // Reset selected kind when the filter changes
   };
-
-  // Get unique location values
+  
+  // Get unique location values from the jsonArray
   const uniqueLocations = [...new Set(jsonArray.map((row) => row.District))];
-
-  // Get unique kind values
+  
+  // Get unique kind values from the jsonArray
   const uniqueKinds = [...new Set(jsonArray.map((row) => row.Food))];
-
+  
+  // Filter the jsonArray based on the selected filter (District or Food)
   const filteredData = jsonArray.filter((row) => {
-    const filterMatch = row.District.includes(filter);
-    const kindmatch = row.Food.includes(filter);
-    return filterMatch || kindmatch;
+    const filterMatch = row.District.includes(filter); // Check if the District matches the filter
+    const kindmatch = row.Food.includes(filter); // Check if the Food matches the filter
+    return filterMatch || kindmatch; // Return true if either District or Food matches the filter
   });
-
+  
   return (
     <div className="ResultsPage">
-      <br></br>
       <h2 className="h2"> Results </h2>
-    {/* <div className="accuracy-info">
-      The accuracy of this prediction is {r2.toFixed(2)}
-    </div> Add this line */}
-    <br></br>
-    <div className="table-container">
-      {/* Rest of the code */}
+      <div className="table-container">
         <table id="table" className="table">
           <thead>
             <tr>
-            <th>
+              <th>
                 District{' '}
                 <select
                   value={filter}
@@ -98,7 +89,7 @@ export const Results = () => {
                 </select>
               </th>
               <th>
-                Food{' '}
+                Kind{' '}
                 <select
                   value={filter}
                   onChange={handleFilterChange}
@@ -122,8 +113,9 @@ export const Results = () => {
                   <td
                     className="location-cell"
                     onClick={() => handleLocationClick(row.District)}
-                    >
+                  >
                     {row.District}
+                    {/* Display the dropdown content if the District is selected */}
                     {selectedLocations.includes(row.District) && (
                       <ul className="dropdown-content">
                         {districtDict[row.District].map((word, wordIndex) => (
@@ -141,8 +133,8 @@ export const Results = () => {
         </table>
       </div>
     </div>
-    
   );
-};
-
-export default Results;
+  };
+  
+  export default Results;
+  
