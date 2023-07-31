@@ -111,7 +111,7 @@ async def to_db_table(file):
         sql = f"INSERT INTO merged VALUES ({placeholders})"
         cursor.executemany(sql, rows)
         cursor.commit()
-        print('Table Uploaded Successfuly to DB')
+        # print('Table Uploaded Successfuly to DB')
 
         # Execute a SQL query to fetch all rows from the 'merged' table
         query = 'SELECT * FROM merged'
@@ -132,8 +132,10 @@ async def to_db_table(file):
 
         # Close the database connection
         conn.close()
-        print("close the connection")
-        print('*******************************************')
+        # print("close the connection")
+        # print('*******************************************')
+
+        return 'SUCCESS'
     
     except pyodbc.Error as e:
         # If an error occurs during the execution of the code within the 'try' block, handle the exception here
@@ -767,10 +769,16 @@ def generate_dates(row):
     return dates
 
 async def main(file):
-    print('')
-    print('Starting proccessing')
-    print('*******************************************')
-    await to_db_table(file)
+    # print('')
+    # print('Starting proccessing')
+    # print('*******************************************')
+    returned = await to_db_table(file)
+    
+    response = {'result': returned}
+    response_json = json.dumps(response, ensure_ascii=False)
+    
+    print(response_json)
+    return response_json
 
 # Run the event loop
 loop = asyncio.new_event_loop()
