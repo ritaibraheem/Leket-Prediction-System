@@ -132,17 +132,23 @@ Table Descriptions:
 1. `dbo.Dis_Loc`:
    - Description: This table contains data about districts and their corresponding locations. It serves as a fundamental reference for geographical information within the system.
    - Usage: The table should be uploaded manually before running the system. It provides essential data for mapping districts and locations used in various analyses.
-- User must upload the data to the table manually before starting from this link.
+- User must upload the data to the table manually before starting from this link:
+  https://drive.google.com/file/d/1stw7_0kPyicQVnd4MpezqaHrL6R0fipw/view?usp=sharing
+
 2. `dbo.Government_Settlements`:
    - Description: This table holds data about districts obtained from government sources. It provides additional information related to the districts, which complements the `dbo.Dis_Loc` table.
    - Usage: Similar to `dbo.Dis_Loc`, this table must be uploaded manually before running the system. It enriches the geographical data and helps in making more informed decisions during data processing and analysis.
-- User must upload the data to the table manually before starting from this link
+- User must upload the data to the table manually before starting from this link:
+  https://drive.google.com/file/d/16QM8fgrHsaLBrOhkHSXEf3gqyTgm9BB4/view?usp=sharing
+
 3. `dbo.merged`:
    - Description: The `dbo.merged` table is created after running the data processing file. It contains processed data obtained by combining and transforming data from multiple sources.
    - Usage: This table serves as the main dataset for the predictive modeling algorithm. It contains features and labels required for training and testing the machine learning model.
+
 4. `dbo.Results`:
    - Description: The `dbo.Results` table is created when running the `helpers.db.js` file. It is used to store prediction results obtained from the predictive algorithm.
    - Usage: After executing the prediction algorithm, the results are stored in this table, providing a historical record of predictions for various districts and locations.
+
 5. `dbo.Users`:
    - Description: The `dbo.Users` table is created when running the `helpers.db.js` file and is used for user management within the system.
    - Usage: This table stores information about registered users, including their credentials and other relevant details. It enables secure access to the system and allows personalized user experiences.
