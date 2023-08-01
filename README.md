@@ -33,6 +33,7 @@ The "Results" folder is responsible for managing the results of the predictions 
 4. runPredModel.js: The `runPredModel.js` file serves as a bridge between Python and Node.js environments, enabling data exchange between the two languages for running and retrieving results from the prediction model.
 5. predictionModel.py: The `predictionModel.py` file houses the Python code that implements the prediction model. This file contains the necessary algorithms and calculations to make accurate predictions based on the provided data. It leverages various machine learning or statistical techniques to generate predictions.
 6. utils.py: The `utils.py` file contains references and utility functions utilized in the prediction model. It offers a collection of helper functions that assist in data preprocessing, feature engineering, or other tasks related to the prediction process.
+
 5) Users Folder:
 user.mode.js: The `user.model.js` file plays a central role in constructing an object representing the results table in our database. It defines the schema and structure of the user's table.
 user.service.js: The `user.service.js` file contains all the functions utilized by the user's table. It acts as a service layer that abstracts the database interactions from the controller. This separation of concerns promotes code organization and makes it easier to manage data-related operations.
