@@ -12,43 +12,44 @@ Project Structure
 The "Helpers" folder contains a single file ‘db.js’ that is responsible for building and updating the database. This file effectively utilizes the "user.model" and "result.model" to ensure seamless database management.
 The purpose of the "Helpers" folder is to encapsulate various utility functions and methods that streamline database interactions.
 
-2) Middleware Folder - Need to be completed & integrate its functions in the code:
+2) Middleware Folder - Needs to be completed & integrate its functions in the code:
 Each file in this folder serves a distinct purpose, contributing to the overall security, authorization, error handling, and data validation processes. We prepared the skeleton code for security handling, we used JSON Web Token mechanism.
-1. admin.js: The "admin.js" file handles administrative access within the application. It is responsible for verifying the credentials and permissions of users by their roles. By implementing authentication mechanisms, "admin.js" ensures that only authorized matched roles can access and perform matched tasks, protecting sensitive functionalities from unauthorized access.
-2. authorize.js: The "authorize.js" file is a controlling access making sure the authorized users can only access the parts of the application that they are allowed to interact with. This enhances security and protects sensitive data from unauthorized users.
-3. errorhandler.js: The "errorhandler.js" file serves as a centralized error-handling middleware, ensuring that errors and exceptions occurring during request processing are managed. It captures and handles errors, providing meaningful responses to clients while preventing application crashes. 
-4. validate-request.js: The "validate-request.js" file focuses on request validation, ensuring that incoming data and requests adhere to predefined rules and constraints.
+ admin.js: The "admin.js" file handles administrative access within the application. It is responsible for verifying the credentials and permissions of users by their roles. By implementing authentication mechanisms, "admin.js" ensures that only authorized matched roles can access and perform matched tasks, protecting sensitive functionalities from unauthorized access.
+ authorize.js: The "authorize.js" file is controlling access making sure the authorized users can only access the parts of the application that they are allowed to interact with. This enhances security and protects sensitive data from unauthorized users.
+ errorhandler.js: The "errorhandler.js" file serves as a centralized error-handling middleware, ensuring that errors and exceptions occurring during request processing are managed. It captures and handles errors, providing meaningful responses to clients while preventing application crashes. 
+ validate-request.js: The "validate-request.js" file focuses on request validation, ensuring that incoming data and requests adhere to predefined rules and constraints.
 
 3) Processing Folder:
-The "processing" folder plays a vital role in data proccessing and manipulation in order to fit the ML model by this data. It comprises three essential files:
-1. data_processing.py: This Python file is responsible for data cleansing, adjustment, and processing tasks. It contains the necessary code to ensure data integrity and prepare it for further analysis.
-2. data_processing.js: The JavaScript code in this file acts as a bridge between Python and Node.js environments, facilitating data exchange between the two languages.
-3. processing.controller.js: Following the Model-View-Controller (MVC) architectural pattern, the "processing_controller.js" serves as a intermediary between the user interface and the data layer. It is responsible for handling user requests for the processing functions, routing them to appropriate functions, and interacting with the model to access and modify data, and manages relevant errors if needed.
+The "processing" folder plays a vital role in data processing and manipulation in order to fit the ML model by this data. It comprises three essential files:
+ data_processing.py: This Python file is responsible for data cleansing, adjustment, and processing tasks. It contains the necessary code to ensure data integrity and prepare it for further analysis.
+ data_processing.js: The JavaScript code in this file acts as a bridge between Python and Node.js environments, facilitating data exchange between the two languages.
+ processing.controller.js: Following the Model-View-Controller (MVC) architectural pattern, the "processing_controller.js" serves as an intermediary between the user interface and the data layer. It is responsible for handling user requests for the processing functions, routing them to appropriate functions, interacting with the model to access and modify data, and managing relevant errors if needed.
 
 4) Results Folder:
-The "Results" folder is responsible for managing the results of the predictions after by running the ML model and the uploading the results’ table to the database.
-1. results.model.js: The `results.model.js` file plays a central role in constructing an object representing the results table in our database. It defines the schema and structure of the results table, facilitating efficient data storage and retrieval.
-2. results.controller.js: It is responsible for handling user requests for the results showing functions, routing them to appropriate functions, and interacting with the model to access and modify data, and manages relevant errors if needed.
-3. results.service.js: The `results.service.js` file contains all the functions utilized by the results table. It acts as a service layer that abstracts the database interactions from the controller. This separation of concerns promotes code organization and makes it easier to manage data-related operations.
-4. runPredModel.js: The `runPredModel.js` file serves as a bridge between Python and Node.js environments, enabling data exchange between the two languages for running and retrieving results from the prediction model.
-5. predictionModel.py: The `predictionModel.py` file houses the Python code that implements the prediction model. This file contains the necessary algorithms and calculations to make accurate predictions based on the provided data. It leverages various machine learning or statistical techniques to generate predictions.
-6. utils.py: The `utils.py` file contains references and utility functions utilized in the prediction model. It offers a collection of helper functions that assist in data preprocessing, feature engineering, or other tasks related to the prediction process.
+The "Results" folder is responsible for managing the results of the predictions after running the ML model and uploading the results table to the database.
+ results.model.js: The `results.model.js` file plays a central role in constructing an object representing the results table in our database. It defines the schema and structure of the results table, facilitating efficient data storage and retrieval.
+ results.controller.js: It is responsible for handling user requests for the results showing functions, routing them to appropriate functions, interacting with the model to access and modify data, and managing relevant errors if needed.
+ results.service.js: The `results.service.js` file contains all the functions utilized by the results table. It acts as a service layer that abstracts the database interactions from the controller. This separation of concerns promotes code organization and makes it easier to manage data-related operations.
+ runPredModel.js: The `runPredModel.js` file serves as a bridge between Python and Node.js environments, enabling data exchange between the two languages for running and retrieving results from the prediction model.
+ predictionModel.py: The `predictionModel.py` file houses the Python code that implements the prediction model. This file contains the necessary algorithms and calculations to make accurate predictions based on the provided data. It leverages various machine learning or statistical techniques to generate predictions.
+ utils.py: The `utils.py` file contains references and utility functions utilized in the prediction model. It offers a collection of helper functions that assist in data preprocessing, feature engineering, or other tasks related to the prediction process.
+
 5) Users Folder:
 user.mode.js: The `user.model.js` file plays a central role in constructing an object representing the results table in our database. It defines the schema and structure of the user's table.
 user.service.js: The `user.service.js` file contains all the functions utilized by the user's table. It acts as a service layer that abstracts the database interactions from the controller. This separation of concerns promotes code organization and makes it easier to manage data-related operations.
-user.controller.js: It is responsible for handling user requests for the siginin up, signing in, and for handling the permission controlling, routing requests to appropriate functions, and interacting with the model to access and modify data, and manages relevant errors if needed.
+user.controller.js: It is responsible for handling user requests for signing up, signing in, and handling permission controlling, routing requests to appropriate functions, and interacting with the model to access and modify data, and managing relevant errors if needed.
 usersExamples.txt: Contains examples of how the user's table will look in the database.
 
 6) Uploads Folder:
 NOTE: DO NOT DELETE this folder even if it is empty. This folder is used by the processing code for handling the uploading CSV file.
 
 7) Additional file used in the back end:
-1. config.json: The `config.json` file stores configuration settings and parameters values enabling automatic connection to the server. In general, it is commonly used to store environment-specific variables, database connection strings, API keys, and other settings that can be accessed by the application during runtime. 
-2. package.json: The `package.json` file is a fundamental part of Node.js projects. It is used to define the metadata and dependencies of the application. This file includes information such as the project name, version, description, author, and entry points. Additionally, it lists all the dependencies required for the application to run. These dependencies can be third-party libraries or modules that the application relies on. The `package.json` file is crucial for package management, version control, and easy setup of the application on other systems.
-3. package-lock.json: The `package-lock.json` file is automatically generated when using npm (Node Package Manager) to install or update packages. It ensures that the exact version of each package's dependencies is installed, preventing potential discrepancies between development and production environments. The `package-lock.json` file is essential for maintaining consistent and reproducible builds across different machines and is crucial for deterministic package resolution.
-4. README.md: The `README.md` file is a Markdown document that serves as a project's main documentation. It contains essential information about the project, including its purpose, installation instructions, usage guidelines, and contribution guidelines. Developers and users can refer to the `README.md` file to understand how the project works, how to set it up, and how to contribute to its development. It acts as a central point of reference for anyone interacting with the project.
-5. passport-config.js: The `passport-config.js` file is related to authentication and authorization in Node.js applications. It is used to configure and set up Passport.js, which is a popular authentication middleware for Node.js. The file defines various authentication strategies, such as local authentication (username and password) or third-party authentication (OAuth, Google, Facebook, etc.). It also includes logic for handling user authentication and authorization, managing sessions, and controlling access to protected routes.
-6. server.js file: The `server.js` file serves as the entry point for the Node.js application. It contains code to set up and configure the web server, such as Express.js. The file typically includes middleware setup, route configuration, and database connections. Additionally, it listens for incoming HTTP requests and dispatches them to the appropriate routes or controllers. The `server.js` file is responsible for starting the application and making it available for users to access and interact with.
+ config.json: The `config.json` file stores configuration settings and parameter values enabling automatic connection to the server. In general, it is commonly used to store environment-specific variables, database connection strings, API keys, and other settings that can be accessed by the application during runtime. 
+ package.json: The `package.json` file is a fundamental part of Node.js projects. It is used to define the metadata and dependencies of the application. This file includes information such as the project name, version, description, author, and entry points. Additionally, it lists all the dependencies required for the application to run. These dependencies can be third-party libraries or modules that the application relies on. The `package.json` file is crucial for package management, version control, and easy setup of the application on other systems.
+ package-lock.json: The `package-lock.json` file is automatically generated when using npm (Node Package Manager) to install or update packages. It ensures that the exact version of each package's dependencies is installed, preventing potential discrepancies between development and production environments. The `package-lock.json` file is essential for maintaining consistent and reproducible builds across different machines and is crucial for deterministic package resolution.
+ README.md: The `README.md` file is a Markdown document that serves as a project's main documentation. It contains essential information about the project, including its purpose, installation instructions, usage guidelines, and contribution guidelines. Developers and users can refer to the `README.md` file to understand how the project works, how to set it up, and how to contribute to its development. It acts as a central point of reference for anyone interacting with the project.
+ passport-config.js: The `passport-config.js` file is related to authentication and authorization in Node.js applications. It is used to configure and set up Passport.js, which is a popular authentication middleware for Node.js. The file defines various authentication strategies, such as local authentication (username and password) or third-party authentication (OAuth, Google, Facebook, etc.). It also includes logic for handling user authentication and authorization, managing sessions, and controlling access to protected routes.
+ server.js file: The `server.js` file serves as the entry point for the Node.js application. It contains code to set up and configure the web server, such as Express.js. The file typically includes middleware setup, route configuration, and database connections. Additionally, it listens for incoming HTTP requests and dispatches them to the appropriate routes or controllers. The `server.js` file is responsible for starting the application and making it available for users to access and interact with.
 
 
 
@@ -78,7 +79,7 @@ The code is a Python script that performs various data processing tasks, includi
 `final_processing(file)`: This is the main processing function that performs the final data processing steps, including data preprocessing, joining data, generating Hebrew holiday dates, and creating a DataFrame `data1`. The processed DataFrame `data1` is returned.
 `process(data)`: This function processes the input DataFrame `data` to create a new DataFrame named `pivot`, containing aggregated data for each week and food-district-location combination. The function returns the `pivot` DataFrame.
 `exctract_week_num(date)`: This function extracts the week number from a given date in the format "YYYY-MM-DD" and returns the week number as an integer.
-`preprocess_train(y_train)`: This function preprocesses the input DataFrame `y_train` to prepare the data for training. It adds new columns, generates week numbers and year values, and encodes categorical variables. The function returns the preprocessed DataFrame.
+`preprocess_train(y_train)`: This function preprocesses the input DataFrame `y_train` to prepare the data for training. It adds new columns, generates week numbers and year values, and encodes categorical variables. The function returns the preprocessed data frame.
 `dis_id(dis)`: This function maps the district name `dis` to an integer identifier representing the district type (e.g., "דרום" -> 1, "צפון" -> 2, etc.).
 `calculate_hebrew_holidays(holidays, start_year, end_year)`: This function calculates Hebrew holiday dates for a specified year range based on the holiday dates in the `holidays` DataFrame for the year 2022. The calculated holiday dates are stored in the `holiday_dates` and `holiday_dates_E` lists.
 
@@ -94,7 +95,7 @@ Functions:
 `modify_selected_list`: This function takes a selected_item and returns a list of selected_items_list based on different conditions.
 `create_test`: This function takes various input parameters (startDate, endDate, maxTemp, minTemp, rain, snow, hail, gale, kind, holidayStartDate, holidayEndDate) along with data and creates a test DataFrame.
 `extract_week_num`: This function extracts the week number from a given date.
-`sesoan`: This function maps the month to a season (1, 2, 3, or 4).
+`season`: This function maps the month to a season (1, 2, 3, or 4).
 `get_predict`: This function takes a selected_item, test DataFrame, and data DataFrame as input and returns the R-squared score and a result DataFrame after training a random forest regression model on the data.
 `get_district_and_food`: This function extracts the district and food information from a given zone.
 `main`: This function is the entry point of the script. It performs the following steps:
@@ -124,24 +125,30 @@ For successful execution, ensure that you have the required data and the correct
 
 
 
-DataBase
+Database
 The project uses a Microsoft SQL Server database to store and manage various datasets related to districts, locations, government settlements, processed data, prediction results, and user information. The database is a critical component of the system and supports data processing, predictive modeling, and user management functionalities.
 
 Table Descriptions:
 1. `dbo.Dis_Loc`:
    - Description: This table contains data about districts and their corresponding locations. It serves as a fundamental reference for geographical information within the system.
    - Usage: The table should be uploaded manually before running the system. It provides essential data for mapping districts and locations used in various analyses.
-- User must upload the data to the table manually before starting from this link.
+- User must upload the data to the table manually before starting from this link:
+  https://drive.google.com/file/d/1stw7_0kPyicQVnd4MpezqaHrL6R0fipw/view?usp=sharing
+
 2. `dbo.Government_Settlements`:
    - Description: This table holds data about districts obtained from government sources. It provides additional information related to the districts, which complements the `dbo.Dis_Loc` table.
    - Usage: Similar to `dbo.Dis_Loc`, this table must be uploaded manually before running the system. It enriches the geographical data and helps in making more informed decisions during data processing and analysis.
-- User must upload the data to the table manually before starting from this link
+- User must upload the data to the table manually before starting from this link:
+  https://drive.google.com/file/d/16QM8fgrHsaLBrOhkHSXEf3gqyTgm9BB4/view?usp=sharing
+
 3. `dbo.merged`:
    - Description: The `dbo.merged` table is created after running the data processing file. It contains processed data obtained by combining and transforming data from multiple sources.
    - Usage: This table serves as the main dataset for the predictive modeling algorithm. It contains features and labels required for training and testing the machine learning model.
+
 4. `dbo.Results`:
    - Description: The `dbo.Results` table is created when running the `helpers.db.js` file. It is used to store prediction results obtained from the predictive algorithm.
    - Usage: After executing the prediction algorithm, the results are stored in this table, providing a historical record of predictions for various districts and locations.
+
 5. `dbo.Users`:
    - Description: The `dbo.Users` table is created when running the `helpers.db.js` file and is used for user management within the system.
    - Usage: This table stores information about registered users, including their credentials and other relevant details. It enables secure access to the system and allows personalized user experiences.
