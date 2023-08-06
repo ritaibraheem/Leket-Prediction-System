@@ -32,8 +32,9 @@ async def to_db_table(file):
 
         # Perform some data processing on 'file' and store the result in 'merged'
         merged = final_processing(file)
+        merged.to_csv('alldataMerged.csv', encoding='utf-8')
 
-        # Save the first 50 rows of 'merged' DataFrame to a CSV file named 'Final Merged to database.csv'
+        # Save the first 50 rows of 'merged' DataFrame in the DB
         first_50_rows = merged.head(50) #TODO: DELETE THIS LINE CODE
 
         # Decode any byte-encoded values in the 'first_50_rows' DataFrame (if any)
@@ -373,7 +374,7 @@ def final_processing(file):
                         'rpr_thunder', 'rpr_lightening', 'rpr_sand_storm'], axis=1)
 
     # Group 'merge2' DataFrame by 'Dis_Location' and 'time_obs', and calculate the mean for each group.
-    merge2 = merge2.groupby(['Dis_Location', 'time_obs']).mean()
+    merge2 = merge2.groupby(['Dis_Location', 'time_obs']).sum()
 
     # Reset the index of 'merge2' DataFrame.
     merge2 = merge2.reset_index()

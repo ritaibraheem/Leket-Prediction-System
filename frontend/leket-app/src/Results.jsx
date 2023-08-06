@@ -9,6 +9,7 @@ export const Results = () => {
   const { jsonData } = routeLocation.state;
   console.log(jsonData['result']);
   const jsonArray = jsonData['result'];
+  const r2 = jsonData['r2']
   console.log(jsonArray);
 
   console.log(jsonData)
@@ -69,6 +70,10 @@ export const Results = () => {
   return (
     <div className="ResultsPage">
       <h2 className="h2"> Results </h2>
+      <div className="accuracy-info">
+      The accuracy of this prediction is {r2.toFixed(2)}
+    </div> Add this line
+    <br></br>
       <div className="table-container">
         <table id="table" className="table">
           <thead>
