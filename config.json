@@ -1,5 +1,5 @@
 ﻿{
-    "dbName": "leketDB",
+    "dbName": "******",
     "dbConfig": {
         "server": "leket1.database.windows.net",
         "options": {
@@ -12,10 +12,10 @@
         "authentication": {
             "type": "default",
             "options": {
-                "userName": "sql",
-                "password": "Leket1234T"
+                "userName": "*****",
+                "password": "******"
             }
         }
     },
-    "secret": "LeketPredSys#050699" 
+    "secret": "*************" 
 }
